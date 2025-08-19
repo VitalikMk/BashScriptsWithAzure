@@ -68,7 +68,7 @@ then
 elif [ "$OS" = "centos" ] || [ "$OS" = "rhel" ]; then
 		sudo mkdir /etc/ssl/private
         sudo $manager install $flag wget make gcc openssl-devel
-elif [ "$OS" = "alpine" ] || [ "$OS" = "carpaos" ]; then
+elif [ "$OS" = "alpine" ] || [ "$OS" = "someos" ]; then
 		doas apk update
 		doas apk add make grep wget gcc openssl-dev grep build-base curl tar curl
 fi
@@ -146,7 +146,7 @@ doas chmod 755 /var/run
 
 #Create service
 case $OS in
-	"alpine" | "carpaos")
+	"alpine" | "someos")
 sudo tee /etc/init.d/pure-ftpd << 'EOF'
 #!/sbin/openrc-run
 
@@ -191,7 +191,7 @@ esac
 
 
 case $OS in
-	"alpine" | "carpaos")
+	"alpine" | "someos")
 	doas chmod +x /etc/init.d/pure-ftpd
 	doas rc-update add pure-ftpd default
 	#doas rc-service pure-ftpd status
