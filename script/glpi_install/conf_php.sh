@@ -1,0 +1,32 @@
+#!/bin/bash
+
+
+echo "
+<?php
+define('GLPI_CONFIG_DIR', '/etc/glpi/');
+if (file_exists(GLPI_CONFIG_DIR . '/local_define.php')) {
+require_once GLPI_CONFIG_DIR . '/local_define.php';
+}" | sudo tee /srv/www/htdocs/glpi/inc/downstream.php > /dev/null
+
+sudo mv /srv/www/htdocs/glpi/config /etc/glpi
+sudo mv /srv/www/htdocs/glpi/files /var/lib/glpi
+sudo mv /var/lib/glpi/_log /var/log/glpi
+
+echo "<?php
+define('GLPI_VAR_DIR', '/var/lib/glpi');
+define('GLPI_DOC_DIR', GLPI_VAR_DIR);
+define('GLPI_CACHE_DIR', GLPI_VAR_DIR . '/_cache');
+define('GLPI_CRON_DIR', GLPI_VAR_DIR . '/_cron');
+define('GLPI_GRAPH_DIR', GLPI_VAR_DIR . '/_graphs');
+define('GLPI_LOCAL_I18N_DIR', GLPI_VAR_DIR . '/_locales');
+define('GLPI_LOCK_DIR', GLPI_VAR_DIR . '/_lock');
+define('GLPI_PICTURE_DIR', GLPI_VAR_DIR . '/_pictures');
+define('GLPI_PLUGIN_DOC_DIR', GLPI_VAR_DIR . '/_plugins');
+define('GLPI_RSS_DIR', GLPI_VAR_DIR . '/_rss');
+define('GLPI_SESSION_DIR', GLPI_VAR_DIR . '/_sessions');
+define('GLPI_TMP_DIR', GLPI_VAR_DIR . '/_tmp');
+define('GLPI_UPLOAD_DIR', GLPI_VAR_DIR . '/_uploads');
+define('GLPI_INVENTORY_DIR', GLPI_VAR_DIR . '/_inventories');
+define('GLPI_THEMES_DIR', GLPI_VAR_DIR . '/_themes');
+define('GLPI_LOG_DIR', '/var/log/glpi');
+" | sudo tee /etc/glpi/local_define.php > /dev/null
